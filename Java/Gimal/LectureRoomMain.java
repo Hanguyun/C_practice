@@ -36,52 +36,55 @@ public class LectureRoomMain {
 		}
 	}
 	
-	static void reserveRoom() {
+	public static void reserveRoom() {
 		System.out.print("예약할 강의실 번호:");
 		String roomNo = sc.nextLine();
 		
 		for(LectureRoom lr : roomList) {
-			if(lr.getRoomNo().equalsIgnoreCase(roomNo)) {
-				if(lr.isReserved()) {
-					System.out.println("이미 예약된 강의실입니다.");
+			if (lr.getRoomNo().equals(roomNo)) {
+				if(lr.isReserve()) {
+					System.out.println(roomNo + " 강의실은 이미 예약된 상태 입니다.");
+					return;
+				} else {
+					lr.reserve();
+					System.out.println(roomNo + " 강의실을 예약했습니다.");
+					return;
 				}
-				else {
-				lr.setReserved(true); // setReserved(true) 예약 상태를 true로 변경
-				System.out.println(roomNo + " 강의실 예약 완료");
-				}
-				return;
 			}
 		}
 		System.out.println("해당 강의실이 없습니다.");
 	}
 	
-	static void showReservedRooms() {
+	public static void showReservedRooms() {
 		System.out.println("===== 예약 현황 =====");
 		
 		for(LectureRoom lr : roomList) {
-			if(lr.isReserved()) { // isReserved(); 현재 예약 상태를 확인
-				lr.displayInfo();
+			if (lr.isReserve()) { // isReserved(); 현재 예약 상태를 확인
+				lr.showReservation();
 			}
 		}
 	}
 	
 	static void cancelRoom() {
-		System.out.print("취소할 강의실 번호:");
+		System.out.print("예약 취소할 강의실 번호:");
 		String roomNo = sc.nextLine();
 		
 		for(LectureRoom lr : roomList) {
-			if(lr.getRoomNo().equalsIgnoreCase(roomNo)) {
-				if(lr.isReserved()) {
-					lr.setReserved(false);
-					System.out.println("강의실이 취소되었습니다.");
-				}
-				else {
-					System.out.println("해당 강의실은 예약되지 않았습니다.");
-				}
+			if (lr.getRoomNo().equals(roomNo)) {
+				lr.cancelReservation();
 				return;
 			}
 		}
 		System.out.println("해당 강의실이 없습니다.");
+	}
+	
+	private static boolean checkDuplicate(String roomNo) {
+		for (int i = 0; i < roomList.size(); i++) {
+			if (roomList.get(i).getRoomNo().equals(roomNo)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	static void addRoom() {
@@ -93,11 +96,9 @@ public class LectureRoomMain {
 		System.out.print("강의실 번호: ");
 		String roomNo = sc.nextLine();
 		
-		for(LectureRoom lr : roomList) {
-			if (lr.getRoomNo().equalsIgnoreCase(roomNo)) {
-				System.out.println("이미 존재하는 강의실 번호입니다.");
-				return;
-			}
+		if(checkDuplicate(roomNo)) {
+			System.out.println(roomNo + "강의실이 등록되어 있습니다.");
+			return;
 		}
 		
 		System.out.print("수용인원: ");
@@ -134,17 +135,15 @@ public class LectureRoomMain {
 		String roomNo = sc.nextLine();
 		
 		for(int i = 0; i < roomList.size();i++) {
-			LectureRoom lr = roomList.get(i);
-			
-			if(lr.getRoomNo().equalsIgnoreCase(roomNo)) {
-				if (lr.isReserved()) {
-					System.out.println("현재 예약되어 있어 예약 취소도 함께 진행됩니다.");
-				}
+			if(roomList.get(i).getRoomNo().equals(roomNo)) {
+				if (roomList.get(i).reserved)
+					System.out.println("현재 예약되어 있습니다. 예약 취소도 같이 진행 됩니다.");
 				
 				roomList.remove(i);
-				System.out.println(roomNo+" 강의실 삭제 완료");
+				System.out.println("삭제 완료");
 				return;
 			}
+			
 		}
 		System.out.println("해당 강의실이 없습니다.");
 	}

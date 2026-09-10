@@ -1,8 +1,8 @@
 package Gimal;
 
 public class PracticeRoom extends LectureRoom {
-	private String purpose;
-	private String equipment;
+	String purpose;
+	String equipment;
 	
 	public PracticeRoom(String roomNo, int capacity, String location, String department, String purpose, String equipment) {
 		super(roomNo, capacity, location, department);
@@ -22,10 +22,10 @@ public class PracticeRoom extends LectureRoom {
 	@Override
 	public void displayInfo() {
 	    System.out.println(
-	        "[실습강의실] " + getRoomNo()
-	        + ", 수용인원: " + getCapacity()
-	        + ", 위치: " + getLocation()
-	        + ", 관리부서: " + getDepartment()
+	        "[실습강의실] " + roomNo
+	        + ", 수용인원: " + capacity
+	        + ", 위치: " + location
+	        + ", 관리부서: " + department
 	        + ", 용도: " + purpose
 	        + ", 보유장비: " + equipment
 	    );

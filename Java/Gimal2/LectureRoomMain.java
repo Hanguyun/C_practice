@@ -69,8 +69,45 @@ public class LectureRoomMain {
 		}
 	}
 	
+	private static boolean checkDuplicate(String roomNo) {
+		for(int i = 0; i < roomList.size();i++) {
+			if(roomList.get(i).getRoomNo().equals(roomNo))
+				return true;
+		}
+		return false;
+	}
+	
 	public static void addRoom() {
+		System.out.println("1. 이론강의실");
+		System.out.println("2. 실습강의실");
+		System.out.print("종류 선택: ");
+		int type = Integer.parseInt(sc.nextLine());
 		
+		System.out.print("강의실 번호");
+		String roomNo = sc.nextLine();
+		if(checkDuplicate(roomNo)) {
+			System.out.println(roomNo + "강의실이 등록되어 있습니다. 확인하고 진행해주세요.");
+			return;
+		}
+		System.out.print("수용인원: ");
+		int capactiy = Integer.parseInt(sc.nextLine());
+		System.out.print("위치: ");
+		String location = sc.nextLine();
+		System.out.print("관리부서: ");
+		String department = sc.nextLine();
+		
+		if(type == 1) {
+			roomList.add(new TheoryRoom(roomNo, capactiy, location, department));
+		}
+		else {
+			System.out.print("용도: ");
+			String purpose = sc.nextLine();
+			System.out.print("보유장비: ");
+			String equipment = sc.nextLine();
+			
+			roomList.add(new PracticeRoom(roomNo, capactiy, location, department, purpose, equipment));
+		}
+		System.out.println("강의실 추가 완료.");
 	}
 	
 	public static void deleteRoom() {

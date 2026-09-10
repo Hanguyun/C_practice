@@ -7,6 +7,9 @@ public class TheoryRoom extends LectureRoom {
 	}
 	
 	public void displayInfo() {
-			System.out.println("[이론강의실]"+getRoomNo()+", 수용인원: "+getCapacity()+", 위치: "+getLocation()+", 관리부서: "+getDepartment());
+			System.out.println("[이론강의실]"+getRoomNo() +
+								", 수용인원: "+capacity +
+								", 위치: "+location +
+								", 관리부서: " + department);
 	}
 }
